@@ -1,0 +1,21 @@
+.vscode/
+## Python ignores
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+# C extensions
+*.so
+## Ignores for testing Spack environments
+spack.lock
+.spack-env/
+# VIM tmp files
+.*.swp
+# our build logs
+spack-logs/
+logs/
+*.tgz
+*.tar.gz
+*.tar.bz2
+patch*
+slurm-*

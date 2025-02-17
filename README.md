@@ -1,5 +1,6 @@
-# Pawsey Spack Configuration
+# Pawsey Vis Spack Configuration
 
+## Please ignore the following instructions. This is yet to be updated.
 Scripts and configuration files used by the Pawsey Supercomputing Research Centre to deploy Spack and to install the scientific software stack on its supercomputing systems.
 
 ## Installation

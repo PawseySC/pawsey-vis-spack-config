@@ -16,10 +16,12 @@ class Virtualgl(CMakePackage):
     #url      = "https://sourceforge.net/projects/virtualgl/files/2.6.3/VirtualGL-2.6.3.tar.gz/download"
     #url      = "https://sourceforge.net/projects/virtualgl/files/3.0.1/VirtualGL-3.0.1.tar.gz/download"
     url      = "https://sourceforge.net/projects/virtualgl/files/3.1/VirtualGL-3.1.tar.gz/download"
+    #url      = "https://github.com/VirtualGL/virtualgl/releases/download/3.1.2/VirtualGL-3.1.2.tar.gz"
     maintainers = ['syathunanthan']
     
     tags = ["visualisation"]
 
+    #version('3.1.2', sha256='1c66af9c714ed53c973deeca97e7d3e2d697c18cded807fa83c376765cbc0303')
     version('3.1', sha256='57bd20a9b1127de344313b6178b19610838a6af6309c059702788e41b6a875d0')
     version('3.0.1', sha256='a96c620963243f4a2f47b0c5b04c557b1f9f0bcdeab958b1ff1e6247f00c58c3')
     version('2.6.3', sha256='9be36c540c512068c8fc26a28722e604e0d2c305f7295229f1e1c8283193cb5e')

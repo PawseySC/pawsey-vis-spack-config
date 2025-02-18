@@ -16,7 +16,7 @@ class Virtualgl(CMakePackage):
     #url      = "https://sourceforge.net/projects/virtualgl/files/2.6.3/VirtualGL-2.6.3.tar.gz/download"
     #url      = "https://sourceforge.net/projects/virtualgl/files/3.0.1/VirtualGL-3.0.1.tar.gz/download"
     url      = "https://sourceforge.net/projects/virtualgl/files/3.1/VirtualGL-3.1.tar.gz/download"
-    maintainers = ['Yathu']
+    maintainers = ['syathunanthan']
     
     tags = ["visualisation"]
 

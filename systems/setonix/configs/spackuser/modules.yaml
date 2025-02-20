@@ -278,6 +278,7 @@ modules:
         feh: 'utilities/{name}/{version}'
         lz4: 'utilities/{name}/{version}'
         squashfs: 'utilities/{name}/{version}'
+        virtualgl: 'utilities/{name}/{version}'
 
         # S3 clients
         awscli: 'utilities/{name}/{version}'

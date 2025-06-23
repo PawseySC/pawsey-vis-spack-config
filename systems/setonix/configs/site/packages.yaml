@@ -442,6 +442,16 @@ packages:
     externals:
     - spec: opengl@4.6.0
       prefix: /usr/
+
+  libglx:
+    externals:
+    - spec: libglx@1.4
+      prefix: /usr
+    buildable: false
+
+  mesa:
+    buildable: false  # block Mesa completely if you want
+
   # ----- 
   # other external packages not related to communication
   # -----

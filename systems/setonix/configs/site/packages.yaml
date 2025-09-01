@@ -449,6 +449,12 @@ packages:
       prefix: /usr
     buildable: false
 
+  egl:
+    buildable: False
+    externals:
+    - spec: egl@1.5.0
+      prefix: /usr/
+
   mesa:
     buildable: false  # block Mesa completely if you want
 

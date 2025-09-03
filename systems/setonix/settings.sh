@@ -54,7 +54,7 @@ RFM_TEST_FILE=${PAWSEY_SPACK_CONFIG_REPO}/systems/${SYSTEM}/rfm_files/rfm_checks
 
 archs="zen3"
 # compiler versions (needed for module trees with compiler dependency)
-gcc_version="13.3.0"
+gcc_version="14.2.0"
 gcc_versionO="13.3.1"
 cce_version="18.0.0"
 aocc_version="5.0.0"
@@ -63,7 +63,7 @@ aocc_version="5.0.0"
 cpu_arch="zen3"
 
 # tool versions
-spack_version="0.23.0" # the prefix "v" is added in setup_spack.sh
+spack_version="0.23.1" # the prefix "v" is added in setup_spack.sh
 singularity_version="4.1.0-nompi" # has to match the version in the Spack env yaml + nompi tag
 singularity_mpi_version="4.1.0-mpi" # has to match the version in the Spack env yaml + mpi tag
 shpc_version="0.1.30"

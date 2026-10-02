@@ -11,6 +11,11 @@
 
 ]]--
 
+local shl_user = os.getenv("USER")
+
+if not (shl_user == "root") then
+prepend_path('LMOD_PACKAGE_PATH', '/software/setonix/lmod-extras')
+
 -- Service variables for this module
 -- 
 --
@@ -61,7 +66,7 @@ end
 -- Cray service functions: /opt/cray/pe/admin-pe/lmod_scripts/lmodHierarchy.lua
 local psc_sw_env_user_modules_root =  "USER_PERMANENT_FILES_PREFIX/" .. psc_sw_env_project .. "/" .. psc_sw_env_user .. "/setonix/DATE_TAG/modules/" .. arch
 prepend_path("LMOD_CUSTOM_COMPILER_GNU_12_0_PREFIX", psc_sw_env_user_modules_root .. "/gcc/" .. psc_sw_env_gcc_version .. "/" .. psc_sw_env_user_modules_suffix)
-prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_17_0_PREFIX", psc_sw_env_user_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_user_modules_suffix)
+prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_21_0_PREFIX", psc_sw_env_user_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_user_modules_suffix)
 prepend_path("LMOD_CUSTOM_COMPILER_AOCC_4_1_PREFIX", psc_sw_env_user_modules_root .. "/aocc/" .. psc_sw_env_aocc_version .. "/" .. psc_sw_env_user_modules_suffix)
 
 
@@ -75,7 +80,7 @@ prepend_path("MODULEPATH", psc_sw_env_shpc_project_root)
 -- Add Project modules to Cray Lmod hierarchy variables
 local psc_sw_env_project_modules_root = "USER_PERMANENT_FILES_PREFIX/" .. psc_sw_env_project .. "/setonix/DATE_TAG/modules/" .. arch
 prepend_path("LMOD_CUSTOM_COMPILER_GNU_12_0_PREFIX", psc_sw_env_project_modules_root .. "/gcc/" .. psc_sw_env_gcc_version .. "/" .. psc_sw_env_project_modules_suffix)
-prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_17_0_PREFIX", psc_sw_env_project_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_project_modules_suffix)
+prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_21_0_PREFIX", psc_sw_env_project_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_project_modules_suffix)
 prepend_path("LMOD_CUSTOM_COMPILER_AOCC_4_1_PREFIX", psc_sw_env_project_modules_root .. "/aocc/" .. psc_sw_env_aocc_version .. "/" .. psc_sw_env_project_modules_suffix)
 
 
@@ -89,11 +94,17 @@ local psc_sw_env_spack_root = psc_sw_env_root_dir .. "/modules/" .. arch
 local psc_sw_env_gcc_root  = psc_sw_env_spack_root .. "/gcc/" .. psc_sw_env_gcc_version
 local psc_sw_env_cce_root  = psc_sw_env_spack_root .. "/cce/" .. psc_sw_env_cce_version
 local psc_sw_env_aocc_root = psc_sw_env_spack_root .. "/aocc/" .. psc_sw_env_aocc_version
+
+-- Add compilerless/Core Spack dependencies to MODULEPATH
+local psc_sw_env_core_dependencies_root =
+    psc_sw_env_root_dir .. "/modules/x86_64/Core/dependencies"
+prepend_path("MODULEPATH", psc_sw_env_core_dependencies_root)
+
 -- Add Spack modules to Cray Lmod hierarchy variables
 -- Note: LMOD_CUSTOM_COMPILER_GNU_8_0_PREFIX comes from Lumi, on Joey there was no `_8_0`
 for index = 1,num_categories do
   prepend_path("LMOD_CUSTOM_COMPILER_GNU_12_0_PREFIX", psc_sw_env_gcc_root .. "/" .. psc_sw_env_module_categories[index])
-  prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_17_0_PREFIX", psc_sw_env_cce_root .. "/" .. psc_sw_env_module_categories[index])
+  prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_21_0_PREFIX", psc_sw_env_cce_root .. "/" .. psc_sw_env_module_categories[index])
   prepend_path("LMOD_CUSTOM_COMPILER_AOCC_4_1_PREFIX", psc_sw_env_aocc_root .. "/" .. psc_sw_env_module_categories[index])
 end
 
@@ -106,5 +117,9 @@ prepend_path("MODULEPATH", psc_sw_env_shpc_root)
 -- Add Pawsey custom modules to Cray Lmod hierarchy variables
 local psc_sw_env_custom_modules_root = psc_sw_env_root_dir .. "/" .. psc_sw_env_custom_modules_dir .. "/" .. arch
 prepend_path("LMOD_CUSTOM_COMPILER_GNU_12_0_PREFIX", psc_sw_env_custom_modules_root .. "/gcc/" .. psc_sw_env_gcc_version .. "/" .. psc_sw_env_custom_modules_suffix)
-prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_17_0_PREFIX", psc_sw_env_custom_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_custom_modules_suffix)
+prepend_path("LMOD_CUSTOM_COMPILER_CRAYCLANG_21_0_PREFIX", psc_sw_env_custom_modules_root .. "/cce/" .. psc_sw_env_cce_version .. "/" .. psc_sw_env_custom_modules_suffix)
 prepend_path("LMOD_CUSTOM_COMPILER_AOCC_4_1_PREFIX", psc_sw_env_custom_modules_root .. "/aocc/" .. psc_sw_env_aocc_version .. "/" .. psc_sw_env_custom_modules_suffix)
+
+-- Let scripts know which version of the software stack is loaded
+setenv("PAWSEY_STACK_VERSION", "DATE_TAG")
+end

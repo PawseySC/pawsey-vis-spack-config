@@ -1,0 +1,43 @@
+spack:
+# note: preferred versions are set in packages.yaml
+  definitions:
+  - packages:
+# py-pip and py-setuptools: installed in env_langs
+# snakemake: docs recommend to install with conda
+#    - ffmpeg@4.4.1 +avresample
+## for now    - ffmpeg@6.1.1
+## for now    - gnuplot@6.0.0
+## for now    - llvm@15.0.4 ~polly ~gold # Ilkhom: ~omp_as_runtime variant is removed from spack/0.21.0
+    - nextflow@22.10.0 #supports DSL-1
+    - nextflow@24.10.0 #supports DSL-2
+    - parallel@20240822
+#   reframe is not needed in cray env 
+#    - reframe@3.12.0 ^python@3.11.11 +optimizations+zlib
+#    - reframe@4.6.3 +docs ^python@3.11.11 +optimizations+zlib
+#    - reframe@3.12.0
+#    - reframe@4.6.3 +docs 
+    # now moving to singularityce rather than older singularity
+    #- singularityce@4.1.0
+    #- singularityce@4.0.3~conmon ^go@1.22.1
+#I    - mpifileutils@0.11.1+lustre
+## for now    - feh@3.10
+    - nano@8.2
+    - cmake@3.31.9
+## utilities for Nextflow Tower tower-agent and tower-cli are no longer needed. PR 41576
+#    - tower-agent@0.4.5
+#    - tower-cli@0.7.0
+# add nano here for now
+  - licensed:
+    - matlab@R2021a key=$MATLAB_INSTALL_KEY mode=automated
+#  - matrix:
+#    - [cmake@3.30.5]
+#    - ['%gcc@14.2.0']
+#    - [target=zen3, target=zen2]
+  specs:
+  - matrix:
+    - [$packages]
+    - ['%%cce_compiler']
+  - matrix:
+    - [$packages]
+    - ['%%cce_compiler_zen2']
+  view: false

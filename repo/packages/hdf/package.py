@@ -1,11 +1,11 @@
-# Copyright 2013-2024 Lawrence Livermore National Security, LLC and other
-# Spack Project Developers. See the top-level COPYRIGHT file for details.
+# Copyright Spack Project Developers. See COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
-#PAWSEY Additions to handle cce compiler in flag_handler
 
 import os
 import sys
+
+from spack_repo.builtin.build_systems.autotools import AutotoolsPackage
 
 from spack.package import *
 
@@ -26,10 +26,6 @@ class Hdf(AutotoolsPackage):
     version("4.2.12", sha256="dd419c55e85d1a0e13f3ea5ed35d00710033ccb16c85df088eb7925d486e040c")
     version("4.2.11", sha256="c3f7753b2fb9b27d09eced4d2164605f111f270c9a60b37a578f7de02de86d24")
 
-    depends_on("c", type="build")  # generated
-    depends_on("cxx", type="build")  # generated
-    depends_on("fortran", type="build")  # generated
-
     variant("szip", default=False, description="Enable szip support")
     variant(
         "external-xdr", default=sys.platform != "darwin", description="Use an external XDR backend"
@@ -39,6 +35,10 @@ class Hdf(AutotoolsPackage):
     variant("java", default=False, description="Enable Java JNI interface")
     variant("shared", default=False, description="Enable shared library")
     variant("pic", default=True, description="Produce position-independent code")
+
+    depends_on("c", type="build")  # generated
+    depends_on("cxx", type="build")  # generated
+    depends_on("fortran", type="build")  # generated
 
     depends_on("zlib-api")
     depends_on("jpeg")
@@ -98,7 +98,7 @@ class Hdf(AutotoolsPackage):
         sha256="49733dd6143be7b30a28d386701df64a72507974274f7e4c0a9e74205510ea72",
         when="@4.2.15:",
     )
-    # https://github.com/NOAA-EMC/spack-stack/issues/317
+    # https://github.com/jcsda/spack-stack/issues/317
     patch("hdfi_h_apple_m1.patch", when="@4.2.15: target=aarch64: platform=darwin")
 
     @property
@@ -128,13 +128,13 @@ class Hdf(AutotoolsPackage):
 
         if not libs:
             msg = "Unable to recursively locate {0} {1} libraries in {2}"
-            raise spack.error.NoLibrariesError(
+            raise NoLibrariesError(
                 msg.format("shared" if shared else "static", self.spec.name, self.spec.prefix)
             )
 
         if not shared and "transitive" in query_parameters:
             libs += self.spec["jpeg:transitive"].libs
-            libs += self.spec["zlib:transitive"].libs
+            libs += self.spec["zlib-api:transitive"].libs
             if self.spec.satisfies("+szip"):
                 libs += self.spec["szip:transitive"].libs
             if self.spec.satisfies("+external-xdr") and self.spec["rpc"].name == "libtirpc":
@@ -155,12 +155,19 @@ class Hdf(AutotoolsPackage):
                 self.spec.satisfies("@:4.2.15 %apple-clang")
                 or self.spec.satisfies("%clang@16:")
                 or self.spec.satisfies("%oneapi")
-                or self.spec.satisfies("%cce")
+                or self.spec.satisfies("%gcc@14:")
+                or self.spec.satisfies("%cce@21:")
             ):
                 flags.append("-Wno-error=implicit-function-declaration")
 
-            if self.spec.satisfies("%clang@16:") or self.spec.satisfies("%apple-clang@15:") or self.spec.satisfies("%cce") or self.spec.satisfies("%gcc@14:"):
-                flags.append("-Wno-error=implicit-int -Wno-error=implicit-function-declaration")
+            if (
+                self.spec.satisfies("%clang@16:")
+                or self.spec.satisfies("%apple-clang@15:")
+                or self.spec.satisfies("%oneapi")
+                or self.spec.satisfies("%gcc@14:")
+                or self.spec.satisfies("%cce@21:")
+            ):
+                flags.append("-Wno-error=implicit-int")
 
         return flags, None, None
 
@@ -215,6 +222,15 @@ class Hdf(AutotoolsPackage):
     def cached_tests_work_dir(self):
         """The working directory for cached test sources."""
         return join_path(self.test_suite.current_test_cache_dir, self.extra_install_tests)
+
+    @run_after("install")
+    def remove_ncgen_ncdump(self):
+        """Remove binaries ncdump and ncgen. These get built and
+        installed even if the netCDF API is turned off (known bug)."""
+        if self.spec.satisfies("~netcdf"):
+            exes_to_remove = ["ncdump", "ncgen"]
+            for exe in exes_to_remove:
+                os.remove(os.path.join(self.prefix.bin, exe))
 
     @run_after("install")
     def setup_build_tests(self):

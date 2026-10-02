@@ -1,0 +1,36 @@
+spack:
+  # Constrain Python whenever it occurs in a dependency graph.
+  packages:
+    python:
+      require: "@3.11.6+optimizations+zlib"
+
+  # Compile these on a GPU node with craype-accel-amd-gfx90a loaded.
+  definitions:
+
+  - packages-with-python:
+    - kokkos@4.7.01 +rocm amdgpu_target=gfx90a +hwloc +memkind +numactl +openmp +tuning build_type=Release
+    #- magma@2.8.0 +rocm ~cuda amdgpu_target=gfx90a
+    - slate@2024.10.29 +rocm amdgpu_target=gfx90a build_type=Release
+    - slate@2025.05.28 +rocm amdgpu_target=gfx90a build_type=Release
+    - trilinos@16.1.0 +rocm amdgpu_target=gfx90a +adios2 +openmp +python +thyra +tpetra +stratimikos ~cuda ^adios2@2.9.2 build_type=Release
+    #- trilinos@15.0.0 +rocm amdgpu_target=gfx90a +adios2 +openmp +python ~cuda ^adios2@2.9.2 build_type=Release
+    - nekrs@23.0 amdgpu_target=gfx90a:xnack+ +rocm
+    - amdgromacs@2023 amdgpu_target=gfx90a +rocm
+
+  - lammps:
+    - lammps@=20230802.4 amdgpu_target=gfx90a +rocm ^kokkos@3.7.02 +rocm amdgpu_target=gfx90a +hwloc +memkind +numactl +openmp +tuning build_type=Release
+    - lammps@=20250722 amdgpu_target=gfx90a +rocm fft_kokkos=hipfft ^kokkos@4.6.02 +rocm amdgpu_target=gfx90a +hwloc +memkind +numactl +openmp +tuning build_type=Release
+    #- lammps@=20250722 amdgpu_target=gfx90a +rocm ^kokkos@4.6.02 +rocm amdgpu_target=gfx90a +hwloc +memkind +numactl +openmp +tuning build_type=Release
+
+  specs:
+  - matrix:
+    - [$packages-with-python]
+    - ['%%gcc_compiler']
+
+  - matrix:
+    - [$lammps]
+    - [+adios +asphere +atc +awpmd +bocs +body +brownian +class2 +colloid +colvars +compress +coreshell +dielectric +diffraction +dipole +dpd-basic +dpd-meso +dpd-react +dpd-smooth +drude]
+    - [^plumed@2.9.2 ^adios2@2.10.2]
+    - ['%%gcc_compiler']
+
+  view: false

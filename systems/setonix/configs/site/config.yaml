@@ -3,6 +3,57 @@ config:
   # This is the path to the root of the Spack install tree.
   install_tree:
     root: USER_PERMANENT_FILES_PREFIX/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software
+    projections:
+
+      # 1) Python stuff that’s installed via venv/pip build systems
+      #    (no compiler in spec → avoid none-none)
+      'build_system=python_pip':  "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      'build_system=python_venv': "{architecture}/compilerless_python/{name}-{version}-{hash}"
+
+      # 2) Safety net for the “meta” package and a few known pure-python helpers
+      #    in case they don’t expose build_system the way we expect
+      python-venv:                "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-pip:                     "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-setuptools:              "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-wheel:                   "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-flit-core:               "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-packaging:               "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      py-pyproject-metadata:      "{architecture}/compilerless_python/{name}-{version}-{hash}"
+      meson:                      "{architecture}/compilerless_python/{name}-{version}-{hash}"
+
+      ncl: "{architecture}/gcc-14.2.0/{name}-{version}-{hash}"
+
+      # 3) Build deps / toolchain bits
+      gcc:              "{architecture}/build-tools/{name}-{version}-{hash}"
+      gcc-runtime:      "{architecture}/build-tools/{name}-{version}-{hash}"
+      compiler-wrapper: "{architecture}/build-tools/{name}-{version}-{hash}"
+      glibc:            "{architecture}/build-tools/{name}-{version}-{hash}"
+      autoconf:         "{architecture}/build-tools/{name}-{version}-{hash}"
+
+      # 4) Compiler independent packages
+      asciidoc-py3:     "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      autoconf-archive: "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      beast2:           "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      clblast:          "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      docbook-xml:      "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      docbook-xsl:      "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      go-bootstrap:     "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      go-md2man:        "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      hpcviewer:        "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      javafx:           "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      nextflow:         "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      openjdk:          "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      parallel:         "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      perl-data-dumper: "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      rclone:           "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      tinyxml:          "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      util-macros:      "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      xcb-proto:        "{architecture}/compiler-independent/{name}-{version}-{hash}"
+      xineramaproto:    "{architecture}/compiler-independent/{name}-{version}-{hash}"
+
+
+      # 5) Default: compiler-aware layout
+      all: "{architecture}/{compiler.name}-{compiler.version}/{name}-{version}-{hash}"
 
   environments_root: USER_PERMANENT_FILES_PREFIX/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/environments
   # Locations where templates should be found
@@ -42,17 +93,13 @@ config:
   # Directory in which to run tests and store test results.
   # Tests will be stored in directories named by date/time and package
   # name/hash.
-  test_stage: USER_TEMP_FILES_PREFIX/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/test_stage
+  test_stage: /tmp/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/test_stage
 
   # Cache directory for already downloaded source tarballs and archived
   # repositories. This can be purged with `spack clean --downloads`.
-  source_cache: USER_TEMP_FILES_PREFIX/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/source_cache
+  source_cache: /tmp/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/source_cache
 
 
   # Cache directory for miscellaneous files, like the package index.
   # This can be purged with `spack clean --misc-cache`
-  misc_cache: USER_TEMP_FILES_PREFIX/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/misc_cache
-
-  # concretizer: `clingo` or `original` (good for debugging concretisations)
-  concretizer: clingo
-  #concretizer: original
+  misc_cache: /tmp/$PAWSEY_PROJECT/$USER/setonix/DATE_TAG/software/$USER/misc_cache

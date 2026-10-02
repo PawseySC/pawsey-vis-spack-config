@@ -1,19 +1,24 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --exclusive
+##SBATCH --qos=pawseyoverride
 #SBATCH --time=1-00:00:00
-#SBATCH --reservation=PAWSEY_CPU_TESTING
-##SBATCH -p gpu
-##SBATCH -A pawsey0001-gpu 
+#SBATCH --reservation=PAWSEY_CPE26.03_CPU_TESTING
+#SBATCH -p work
+#SBATCH -A pawsey0001 
 ##SBATCH --gpus-per-node=8
 
 export SYSTEM=setonix
 export INSTALL_GROUP=pawsey0001
-export INSTALL_PREFIX=/software/setonix/2025.02
+export DATE_TAG="2026.09"
+export INSTALL_PREFIX=/software/setonix/${DATE_TAG}
 
-#export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
+export SPACK_USER_CONFIG_PATH="${INSTALL_PREFIX}/spack/etc/spack/spackuser"
 
-#ml cray-pmi/6.1.15
+
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
+
+ml cray-pmi/6.1.17
 
 ./install_software_stack.sh
 

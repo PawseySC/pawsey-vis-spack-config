@@ -13,4 +13,4 @@ upstreams:
 #  autoload+upstream currently does not work, 
 # so better not to expose upstreams modules to user installations
 #    modules:
-#      lmod: INSTALL_PREFIX/modules
+#      lmod: INSTALL_PREFIX/modules 

@@ -1,0 +1,24 @@
+compilers:
+- compiler:
+    spec: gcc@14.2.0
+    paths:
+      cc: cc
+      cxx: CC
+      f77: ftn
+      fc: ftn
+    flags: {}
+    operating_system: sles15
+    target: any
+    modules:
+    - PrgEnv-gnu
+    - gcc-native/14.2
+    - craype/2.7.34
+    - craype-x86-milan
+    - craype-network-ofi
+    - cray-mpich/9.1.0
+    - cray-libsci
+    - xpmem
+    environment:
+      set:
+        PE_ENV: "GNU"
+    extra_rpaths: []

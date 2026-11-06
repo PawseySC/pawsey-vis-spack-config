@@ -858,3 +858,28 @@ packages:
       - spec: hipsolver@7.0.1
         prefix: /opt/rocm-7.0.1
 
+
+# =====================================================================
+#                       Visualisaiton
+# =====================================================================
+
+  opengl:
+    buildable: False
+    externals:
+    - spec: opengl@4.6.0
+      prefix: /usr/
+
+  libglx:
+    externals:
+    - spec: libglx@1.4
+      prefix: /usr
+    buildable: false
+
+  egl:
+    buildable: False
+    externals:
+    - spec: egl@1.5.0
+      prefix: /usr/
+
+  mesa:
+    buildable: false  # block Mesa completely if you want

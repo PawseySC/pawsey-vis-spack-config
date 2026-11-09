@@ -3,7 +3,9 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack import *
+from spack_repo.builtin.build_systems.cmake import CMakePackage
+
+from spack.package import *
 
 
 class Virtualgl(CMakePackage):
@@ -47,4 +49,3 @@ class Virtualgl(CMakePackage):
         '-DOpenCL_INCLUDE_DIR=/usr/include',
         '-DOpenCL_LIBRARY=/usr/lib64/libOpenCL.so.1']
         return args
-

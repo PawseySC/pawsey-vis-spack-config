@@ -42,9 +42,9 @@ spack spec python@${python_version} %cce_compiler_zen2
 
 echo "Installing Python with default compilers.."
 sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %gcc_compiler"
-sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %gcc_compiler_zen2"
-sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %cce_compiler"
-sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %cce_compiler_zen2"
+#sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %gcc_compiler_zen2"
+#sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %cce_compiler"
+#sg $INSTALL_GROUP -c "spack install -j128 --no-checksum python@${python_version} %cce_compiler_zen2"
 
 #for arch in $archs; do
 #    echo "target=$arch"

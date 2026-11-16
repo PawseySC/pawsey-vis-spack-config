@@ -83,6 +83,8 @@ packages:
           environment:
             set:
               PE_ENV: "CRAY"
+            prepend_path:
+              PKG_CONFIG_PATH: /usr/lib64/pkgconfig
 
 #  gcc:
 #    buildable: false
@@ -119,6 +121,7 @@ packages:
             set:
               PE_ENV: "GNU"
             prepend_path:
+              PKG_CONFIG_PATH: /usr/lib64/pkgconfig
               LD_LIBRARY_PATH: /opt/cray/pe/mpich/9.1.0/ofi/gnu/12.3/lib:/opt/cray/pe/mpich/9.1.0/gtl/lib
 #              LD_LIBRARY_PATH: ${CRAY_LD_LIBRARY_PATH} 
 

@@ -23,6 +23,8 @@ class Virtualgl(CMakePackage):
     
     tags = ["visualisation"]
 
+    version('3.1.5', sha256='8a3249c4fa8eea928362ca97b8fe16e5b356e3a18cd16d87e3efa72a870750b6',
+            url="https://github.com/VirtualGL/virtualgl/releases/download/3.1.5/VirtualGL-3.1.5.tar.gz")
     #version('3.1.2', sha256='1c66af9c714ed53c973deeca97e7d3e2d697c18cded807fa83c376765cbc0303')
     version('3.1', sha256='57bd20a9b1127de344313b6178b19610838a6af6309c059702788e41b6a875d0')
     version('3.0.1', sha256='a96c620963243f4a2f47b0c5b04c557b1f9f0bcdeab958b1ff1e6247f00c58c3')
@@ -33,13 +35,14 @@ class Virtualgl(CMakePackage):
     depends_on("libjpeg-turbo")
 
     def cmake_args(self):
-        # FIXME: CMAKE_INSTALL_PREFIX and CMAKE_BUILD_TYPE
+#        # FIXME: CMAKE_INSTALL_PREFIX and CMAKE_BUILD_TYPE
         args = [
-        '-DOpenCL_INCLUDE_DIR=/usr/include/',
+#        '-DOpenCL_INCLUDE_DIR=/usr/include/',
 #        '-DCMAKE_C_FLAGS=-fPIC',
 #        '-DCMAKE_CXX_FLAGS=-fPIC',
         '-DVGL_FAKEXCB=ON',
         '-DOPENGL_glu_LIBRARY=/usr/lib64/libGLU.so',
+        '-DOPENGL_egl_LIBRARY=/usr/lib64/libEGL.so',
         '-DX11_Xtst_LIB=/usr/lib64/libXtst.so',
         '-DX11_Xtst_INCLUDE_PATH=/usr/include/',
         '-DX11_ICE_INCLUDE_PATH=/usr/include',
